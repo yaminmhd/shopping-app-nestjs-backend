@@ -1,13 +1,27 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { CreateUserRequest } from './dto/create-user.request';
 import { UsersService } from './users.service';
+import { match } from 'oxide.ts';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  createUser(@Body() request: CreateUserRequest) {
-    return this.usersService.createUser(request);
+  async createUser(@Body() request: CreateUserRequest) {
+    const result = await this.usersService.createUser(request);
+    return match(result, {
+      Ok: (user) => user,
+      Err: (error: Error) => {
+        if (error instanceof UnprocessableEntityException) {
+          throw new UnprocessableEntityException('User email exists');
+        }
+      },
+    });
   }
 }

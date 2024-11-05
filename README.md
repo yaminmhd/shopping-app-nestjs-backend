@@ -29,7 +29,14 @@
 ## Project setup
 
 ```bash
+# Install dependencies
 $ pnpm install
+
+# Run postgres db and pgadmin in local dev container
+$ docker-compose up
+
+# Run migration scripts on fresh db instance
+$ pnpm prisma migrate deploy
 ```
 
 ## Compile and run the project
@@ -37,6 +44,8 @@ $ pnpm install
 ```bash
 # development
 $ pnpm run start
+
+# Access pgadmin instance on localhost:5050
 
 # watch mode
 $ pnpm run start:dev
