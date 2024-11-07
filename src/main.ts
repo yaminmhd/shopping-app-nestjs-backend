@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from 'nestjs-pino';
 
@@ -12,6 +12,14 @@ async function bootstrap() {
       whitelist: true,
       forbidNonWhitelisted: true,
       disableErrorMessages: true,
+      exceptionFactory: (errors) => {
+        const result = errors.map((error) => ({
+          property: error.property,
+          message: error.constraints[Object.keys(error.constraints)[0]],
+        }));
+        return new BadRequestException(result);
+      },
+      stopAtFirstError: true,
     }),
   );
 
