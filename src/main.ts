@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from 'nestjs-pino';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,8 +11,6 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
-      forbidNonWhitelisted: true,
-      disableErrorMessages: true,
       exceptionFactory: (errors) => {
         const result = errors.map((error) => ({
           property: error.property,
@@ -22,7 +21,7 @@ async function bootstrap() {
       stopAtFirstError: true,
     }),
   );
-
+  app.use(cookieParser());
   await app.listen(app.get(ConfigService).getOrThrow('PORT'));
 }
 bootstrap();
