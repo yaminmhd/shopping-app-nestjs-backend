@@ -9,9 +9,9 @@ import {
 import { CreateUserRequest } from './dto/create-user.request';
 import { UsersService } from './users.service';
 import { match } from 'oxide.ts';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { CurrentUser } from 'src/auth/current-user.decorator';
-import { TokenPayload } from 'src/auth/token-payload.interface';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { CurrentUser } from '../auth/current-user.decorator';
+import { TokenPayload } from '../auth/token-payload.interface';
 
 @Controller('users')
 export class UsersController {
@@ -26,6 +26,7 @@ export class UsersController {
         if (error instanceof UnprocessableEntityException) {
           throw new UnprocessableEntityException('User email exists');
         }
+        throw error;
       },
     });
   }
