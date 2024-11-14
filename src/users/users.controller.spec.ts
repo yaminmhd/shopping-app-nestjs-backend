@@ -3,8 +3,6 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
 import { CreateUserRequest } from './dto/create-user.request';
-import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Err, Result } from 'oxide.ts';
 import { UnprocessableEntityException } from '@nestjs/common';
 import { TokenPayload } from '../auth/token-payload.interface';
