@@ -42,7 +42,7 @@ describe('ProductsController', () => {
     };
     (productsService.create as jest.Mock).mockResolvedValue(createdProductResponse);
 
-    const result = await controller.create(createProductRequest, mockedUser);
+    const result = await controller.createProduct(createProductRequest, mockedUser);
 
     expect(result).toEqual(createdProductResponse);
   });

@@ -42,6 +42,9 @@ $ pnpm prisma migrate deploy
 ## Compile and run the project
 
 ```bash
+# seed the db for dummy data
+$ npx prisma db seed 
+
 # development
 $ pnpm run start
 
@@ -65,6 +68,26 @@ $ pnpm run test:e2e
 
 # test coverage
 $ pnpm run test:cov
+```
+
+## Migratons
+
+```bash
+# Create a new migration for dev environment. This will create a up and down sql migration and NOT apply it to DB
+$ pnpm db:create-migration:dev
+
+#Apply migration to existing DB schema
+$ pnpm db:apply-migration:dev
+
+# Check migration status
+$ pnpm db:status:dev
+
+# In case of failed migration, do a rollback and delete previous migration.
+# Delete migration record from the _prisma_migration table
+# Run the down.sql in the failed migration folder
+# Delete the directory from prisma/migrations folder
+$ pnpm db:rollback:dev
+
 ```
 
 ## Deployment

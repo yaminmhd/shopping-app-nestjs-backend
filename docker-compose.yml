@@ -1,8 +1,8 @@
-version: '3.8'
+version: '3.9'
 services:
   postgres:
     image: postgres:latest
-    container_name: postgres_db
+    container_name: shopapp_postgres_db
     ports:
       - '5432:5432'
     environment:
@@ -23,7 +23,7 @@ services:
   # Optional: Add pgAdmin for database management
   pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: pgadmin
+    container_name: shopapp_pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
