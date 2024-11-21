@@ -29,14 +29,22 @@
 ## Project setup
 
 ```bash
+# Copy the example.env file to dev.env and provide values for env variables
+$ cp src/config/env/example.env src/config/env/dev.env
+
 # Install dependencies
 $ pnpm install
 
-# Run postgres db and pgadmin in local dev container
-$ docker-compose up
+# Trigger run.sh script. 
+# This will run the docker-compose up command to start the postgres db and pgadmin and run the migration scripts
+$ pnpm run:docker:dev
 
-# Run migration scripts on fresh db instance
-$ pnpm prisma migrate deploy
+# or you can run the 2 commands manually as below 
+  # Run postgres db and pgadmin in local dev container with env file
+  $ docker-compose --env-file src/config/env/dev.env up
+
+  # Run available migration scripts on fresh db instance
+  $ dotenv -e src/config/env/dev.env -- npx prisma migrate deploy
 ```
 
 ## Compile and run the project
@@ -70,7 +78,7 @@ $ pnpm run test:e2e
 $ pnpm run test:cov
 ```
 
-## Migratons
+## Migrations
 
 ```bash
 # Create a new migration for dev environment. This will create a up and down sql migration and NOT apply it to DB
