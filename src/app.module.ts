@@ -8,6 +8,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from 'nestjs-prisma';
 import { postgresConnectionUri } from './config/database.config';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -46,6 +48,9 @@ import { postgresConnectionUri } from './config/database.config';
           explicitConnect: false,
         };
       },
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', '../public'),
     }),
     UsersModule,
     AuthModule,
