@@ -10,6 +10,7 @@ import { PrismaModule } from 'nestjs-prisma';
 import { postgresConnectionUri } from './config/database.config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { CheckoutModule } from './checkout/checkout.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { join } from 'path';
     UsersModule,
     AuthModule,
     ProductsModule,
+    CheckoutModule,
   ],
   controllers: [AppController],
   providers: [AppService],
