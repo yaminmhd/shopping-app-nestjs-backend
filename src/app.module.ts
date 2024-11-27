@@ -11,6 +11,7 @@ import { postgresConnectionUri } from './config/database.config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CheckoutModule } from './checkout/checkout.module';
+import { HealthController } from './health.controller';
 
 @Module({
   imports: [
@@ -58,7 +59,7 @@ import { CheckoutModule } from './checkout/checkout.module';
     ProductsModule,
     CheckoutModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, HealthController],
   providers: [AppService],
 })
 export class AppModule {}
