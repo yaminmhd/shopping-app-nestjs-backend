@@ -2,7 +2,7 @@
 set -e
 
 # Default environment
-ENV="dev"
+ENV="development"
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
@@ -24,7 +24,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Validate environment file exists
-ENV_FILE="src/config/env/${ENV}.env"
+ENV_FILE=".env.${ENV}"
 if [ ! -f "$ENV_FILE" ]; then
     echo "Error: Environment file $ENV_FILE not found"
     exit 1

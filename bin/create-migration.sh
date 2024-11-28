@@ -2,7 +2,7 @@
 set -e
 
 # Default environment
-ENV="dev"
+ENV="development"
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
@@ -19,13 +19,13 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Validate environment
-if [ ! -f "src/config/env/${ENV}.env" ]; then
-    echo "Error: Environment file src/config/env/${ENV}.env not found"
+if [ ! -f ".env.${ENV}" ]; then
+    echo "Error: Environment file .env.${ENV} not found"
     exit 1
 fi
 
 # Run the prisma migrate dev command to generate up migration and capture its output
-output=$(dotenv -e src/config/env/${ENV}.env -- npx prisma migrate dev --create-only 2>&1 | tee /dev/tty)
+output=$(dotenv -e .env.${ENV} -- npx prisma migrate dev --create-only 2>&1 | tee /dev/tty)
 
 migration_name=$(echo "$output" | sed -n 's/.*following migration without applying it \(.*\)/\1/p')
 
@@ -43,6 +43,6 @@ if [ ! -d "$migration_dir" ]; then
 fi
 
 # Generate the down migration SQL and save it in the migration directory
-dotenv -e src/config/env/${ENV}.env -- npx prisma migrate diff --from-schema-datamodel prisma/schema.prisma --to-schema-datasource prisma/schema.prisma --script > "$migration_dir/down.sql"
+dotenv -e .env.${ENV} -- npx prisma migrate diff --from-schema-datamodel prisma/schema.prisma --to-schema-datasource prisma/schema.prisma --script > "$migration_dir/down.sql"
 
 echo "Up and down migrations created successfully in $migration_dir"

@@ -2,7 +2,7 @@
 set -e
 
 # Default environment
-ENV="dev"
+ENV="development"
 remove_directory=false
 
 # Parse command line arguments
@@ -24,8 +24,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Validate environment
-if [ ! -f "src/config/env/${ENV}.env" ]; then
-    echo "Error: Environment file src/config/env/${ENV}.env not found"
+if [ ! -f ".env.${ENV}" ]; then
+    echo "Error: Environment file .env.${ENV} not found"
     exit 1
 fi
 
@@ -63,12 +63,12 @@ fi
 
 # Run the down migration
 echo "Running down migration for $migration_name..."
-dotenv -e src/config/env/${ENV}.env -- npx prisma db execute --file "${latest_migration}down.sql" --schema prisma/schema.prisma
+dotenv -e .env.${ENV} -- npx prisma db execute --file "${latest_migration}down.sql" --schema prisma/schema.prisma
 
 echo "Attempting to mark migration '$migration_name' as rolled back..."
 
 # Delete the migration
-dotenv -e src/config/env/${ENV}.env -- npx prisma db execute --stdin <<SQL
+dotenv -e .env.${ENV} -- npx prisma db execute --stdin <<SQL
 DELETE FROM "_prisma_migrations"
 WHERE migration_name = '$migration_name';
 SQL
@@ -93,4 +93,4 @@ fi
 
 echo "Current migration status:"
 # ignore exit code 1 when there is pending migration
-dotenv -e src/config/env/${ENV}.env npx prisma migrate status || true
+dotenv -e .env.${ENV} npx prisma migrate status || true
