@@ -1,12 +1,14 @@
 import { AwsParameterService } from './AwsParameterService';
+import { ConfigFactory } from '@nestjs/config';
 
-export default async () => {
-  const databaseUrl = `postgresql://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE_NAME}?schema=public`;
-
+const configuration: ConfigFactory = async () => {
   if (process.env.NODE_ENV === 'production') {
     const parameterService = new AwsParameterService();
 
     const appConfig = {
+      url: await parameterService.getParameter(
+        '/shoppingapp/prod/DATABASE_URL',
+      ),
       host: await parameterService.getParameter(
         '/shoppingapp/prod/DATABASE_HOST',
       ),
@@ -42,7 +44,7 @@ export default async () => {
     return {
       port: parseInt(process.env.PORT, 10) || 3001,
       database: {
-        url: databaseUrl,
+        url: appConfig.url,
         host: appConfig.host,
         port: appConfig.port,
         username: appConfig.username,
@@ -61,6 +63,7 @@ export default async () => {
     };
   }
 
+  const databaseUrl = `postgresql://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE_NAME}?schema=public`;
   return {
     port: parseInt(process.env.PORT, 10) || 3001,
     database: {
@@ -84,3 +87,5 @@ export default async () => {
     },
   };
 };
+
+export default configuration;

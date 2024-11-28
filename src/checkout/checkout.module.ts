@@ -13,7 +13,7 @@ import { ProductsModule } from '../products/products.module';
     {
       provide: Stripe,
       useFactory: (configService: ConfigService) =>
-        new Stripe(configService.get('stripe.secretKey')),
+        new Stripe(configService.get('STRIPE_SECRET_KEY')),
       inject: [ConfigService],
     },
   ],

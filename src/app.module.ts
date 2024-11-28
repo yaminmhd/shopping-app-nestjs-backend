@@ -11,8 +11,6 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CheckoutModule } from './checkout/checkout.module';
 import { HealthController } from './health.controller';
-import configuration from './config/configuration';
-import { AwsParameterService } from './config/AwsParameterService';
 
 @Module({
   imports: [
@@ -32,11 +30,7 @@ import { AwsParameterService } from './config/AwsParameterService';
       },
       inject: [ConfigService],
     }),
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: `.env.${process.env.NODE_ENV}`,
-      load: [configuration],
-    }),
+    ConfigModule.forRoot(),
     PrismaModule.forRootAsync({
       imports: [ConfigModule],
       isGlobal: true,
@@ -45,7 +39,7 @@ import { AwsParameterService } from './config/AwsParameterService';
           prismaOptions: {
             datasources: {
               db: {
-                url: configService.getOrThrow('database.url'),
+                url: configService.getOrThrow('DATABASE_URL'),
               },
             },
           },
@@ -63,6 +57,6 @@ import { AwsParameterService } from './config/AwsParameterService';
     CheckoutModule,
   ],
   controllers: [AppController, HealthController],
-  providers: [AppService, AwsParameterService],
+  providers: [AppService],
 })
 export class AppModule {}

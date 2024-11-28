@@ -32,8 +32,8 @@ export class CheckoutService {
         },
       ],
       mode: 'payment',
-      success_url: this.configService.getOrThrow('stripe.successUrl'),
-      cancel_url: this.configService.getOrThrow('stripe.cancelUrl'),
+      success_url: this.configService.getOrThrow('STRIPE_SUCCESS_URL'),
+      cancel_url: this.configService.getOrThrow('STRIPE_CANCEL_URL'),
     });
   }
 
