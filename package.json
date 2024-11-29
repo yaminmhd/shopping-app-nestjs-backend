@@ -20,7 +20,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "run:docker:dev": "bash bin/run.sh --env dev",
+    "run:docker:dev": "bash bin/run.sh --env development",
     "db:create-migration:dev": "bash bin/create-migration.sh --env development",
     "db:create-migration:test": "bash bin/create-migration.sh --env test",
     "db:apply-migration:dev": "dotenv -e .env.development -- npx prisma migrate dev",
