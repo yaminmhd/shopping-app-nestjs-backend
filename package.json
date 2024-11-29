@@ -31,8 +31,7 @@
     "test:e2e": "npm run db:reset:test && dotenv -e .env.test -- jest --runInBand --config ./test/jest-e2e.json;"
   },
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.699.0",
-    "@aws-sdk/client-ssm": "^3.699.0",
+    "@aws-sdk/client-s3": "^3.701.0",
     "@golevelup/ts-jest": "^0.6.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.3.0",
